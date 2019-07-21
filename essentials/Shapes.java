@@ -102,6 +102,107 @@ public class Shapes{
             generate_ZShape(x,y); 
     }
     
+    public void make_Stick(int rotation){
+        if(rotation==1)
+            generate_Stick(x,y);
+        else if(rotation==2)
+            coords=new int[][]{
+            {x,y},{x,y+1},{x,y+2},{x,y+3}
+        };
+        else if(rotation==3)
+            coords=new int[][]{
+            {x,y},{x-1,y},{x-2,y},{x,3,y}
+        };
+        else
+            coords=new int[][]{
+            {x,y},{x,y-1},{x,y-2},{x,y-3}
+        };
+        
+          if(rotation==1 || rotation==3)
+		{
+			length=3;width=0;
+		}
+	else {length=0;width=3;}
+    }
+    
+    public void make_TShape(int rotation){
+        if(rotation==1)
+            generate_TShape(x,y);
+        else if(rotation==2)
+            coords=new int[][]{
+            {x,y},{x+1,y},{x+2,y},{x+1,y-1}
+        };
+        else if(rotation==3)
+            coords=new int[][]{
+            {x,y},{x,y+1},{x,y+2},{x-1,y+1}
+        };
+        else
+            coords=new int[][]{
+            {x,y},{x+1,y},{x+2,y},{x+1,y+1}
+        };
+        if(rotation==1){length=1;width=2;}
+        else if(rotation==3){
+            length=0;
+            width=2;
+        }
+		else {length=2;width=1;}
+    }
+    
+     public void make_LShape(int rotation){
+        if(rotation==1)
+            generate_LShape(x,y);
+        else if(rotation==2)
+            coords=new int[][]{
+            {x,y},{x,y+1},{x,y+2},{x+1,y}
+        };
+        else if(rotation==3)
+            coords=new int[][]{
+            {x,y},{x+1,y},{x+2,y},{x,y-1}
+        };
+        else
+            coords=new int[][]{
+            {x,y},{x,y-1},{x,y-2},{x-1,y}
+        };
+         if(rotation==1){ length=2;width=1; }
+        else if(rotation==2)
+        {
+            length=2;
+            width=2;
+        }
+        else if(rotation==4){
+            length=0;
+            width=1;
+        }
+	else{length=1;width=2;}
+    }
+    
+     public void make_ZShape(int rotation){
+        if(rotation==1)
+            generate_ZShape(x,y);
+        else if(rotation==2)
+            coords=new int[][]{
+            {x,y},{x+1,y},{x+1,y-1},{x+2,y-1}
+        };
+        else if(rotation==3)
+            coords=new int[][]{
+            {x,y},{x,y+1},{x-1,y+1},{x-1,y+2}
+        };
+        else
+            coords=new int[][]{
+            {x,y},{x+1,y},{x+1,y+1},{x+2,y+1}
+        };
+         if(rotation==1){ length=1;width=2;}
+    else if(rotation==3){
+length=0;
+    width=2;
+    }
+    else if(rotation==2){
+        length=0;
+        width=2;
+    }
+	else{ length=2;width=1;}
+    }
+    
     public int[][] generate_Shape()
     {
      val= setRandom();
@@ -277,6 +378,8 @@ public class Shapes{
              newcoords=coords;
             return newcoords;
     }
+    
+    
     
     public void rotate_Stick(char ch)
     {

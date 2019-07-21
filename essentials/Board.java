@@ -23,7 +23,7 @@ public class Board
             count[i]=0;
     }
     
-    public void findandremove(){
+    public int findandremove(){
         for(int i=1;i<=18;i++)
         {
             if(count[i]==18)
@@ -34,14 +34,20 @@ public class Board
                 
                 for(int k=i;k>=2;k--)
                 {
-                    for(int j=1;j<19;j++)
-                        if(k!=18 && screen[k][j]!=' '){
+                    count[k+1]=0;
+                    for(int j=1;j<19;j++){
+                    screen[k+1][j]=' ';
+                        if(k!=18){
+                            if(screen[k][j]!=' ')
                             count[k+1]++;
                         screen[k+1][j]=screen[k][j];
                         }
+                    }
                 }
+                return 1;
                 }
             }
+        return 0;
         }
     
     

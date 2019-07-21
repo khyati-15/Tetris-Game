@@ -20,24 +20,23 @@ class Tetris
         b.generate_board();
         int fix=0;
         
-        Undo u[]=new Undo[10];
-        Undo r[]=new Undo[10];
+        Undo u=new Undo();
+        Undo r=new Undo();
         
-        char [][]mapped =new char[][]{{'l','r'},{'r','l'},{'d','u'},{'c','a'},{'a','c'}};
-        for(int i=0;i<10;i++)
-        {
-            u[i]=new Undo();
-            r[i]=new Undo();
-        }
-        int undosize=0,redosize=0;
+        UndoShape us=new UndoShape();
+        
+        char [][]mapped =new char[][]{{'l','r'},{'r','l'},{'d','u'},{'c','a'},{'a','c'},{'s','p'}};
+        
         while(true){
         
             if(fix>100)
                 break;
+        us.top1=null;
         Shapes s=new Shapes();
         int coords[][]=s.generate_Shape();
+	
         b.setBoard(coords);
-            clearscreen();
+        clearscreen();
         b.display_board();
     
         Scanner sc=new Scanner(System.in);
@@ -55,12 +54,18 @@ class Tetris
                 }
             }
             if(br==1){
+              
                   for(int i=0;i<coords.length;i++)
                 { 
                     fix++;
                     b.count[coords[i][0]]++;
                 }
-                b.findandremove();
+                us.push(s.val,s.rotation,s.x,s.y);
+                u.push('s');
+                us.display();
+                 if(b.findandremove()==1){
+                  us.top1=null;
+              }
                 break;
             }
                 int newcoords[][]=new int[4][2];
@@ -81,11 +86,12 @@ class Tetris
             coords=s.rotateright(b.screen);
         else if(ch=='u' || ch=='U')
         {
-            if(undosize!=0)
+            if(!u.isEmpty())
             {
-                for(int i=0;i<5;i++)
+                System.out.println(u.peek());
+                for(int i=0;i<6;i++)
                 {
-                    if(u[undosize-1].operation==mapped[i][0])
+                    if(u.peek()==mapped[i][0])
                     {
                        
                         if(mapped[i][1]=='l')
@@ -100,23 +106,45 @@ class Tetris
                             coords=s.rotateright(b.screen);
                         else if(mapped[i][1]=='d')
                             coords=s.movedown(b.screen);
-                        for(int j=0;j<undosize-1;j++)
-                            u[j].operation=u[j+1].operation;
-                        r[redosize].operation=u[undosize-1].operation;
-                        redosize++;
-                        undosize--;
+                        else if(mapped[i][0]=='s')
+                        {                 
+                            for(int k=0;k<4;k++)
+                                b.screen[s.coords[k][0]][s.coords[k][1]]=' ';
+                        
+                            s.rotation=us.getrotation();
+                            s.val=us.getshape();
+                            s.x=us.getx();
+                            s.y=us.gety();
+                            
+                            if(s.val==0)
+                                s.make_Stick(s.rotation);
+                            else if(s.val==2)
+                                s.generate_Square(s.x,s.y);
+                            else if(s.val==1)
+                                s.make_TShape(s.rotation);
+                            else if(s.val==3)
+                                s.make_LShape(s.rotation);
+                            else 
+                                s.make_ZShape(s.rotation);
+                            for(int k=0;k<4;k++)
+                                b.count[s.coords[k][0]]--;
+                            coords=s.moveup(b.screen);
+                             us.pop();
+                        }
+                        r.push(u.peek());
+                       u.pop();
                         break;
                     }
                 }
             }
         }
-    else if(ch=='o' || ch=='O')
+        else if(ch=='o' || ch=='O')
         {
-            if(redosize!=0)
+            if(!r.isEmpty())
             {
-                for(int i=0;i<5;i++)
+                for(int i=0;i<6;i++)
                 {
-                    if(r[redosize-1].operation==mapped[i][0])
+                    if(r.peek()==mapped[i][0])
                     {
                        
                         if(mapped[i][0]=='l')
@@ -131,17 +159,19 @@ class Tetris
                             coords=s.rotateright(b.screen);
                         else if(mapped[i][0]=='d')
                             coords=s.movedown(b.screen);
-                        for(int j=0;j<redosize-1;j++)
-                            r[j].operation=r[j+1].operation;
-                        u[undosize].operation=r[redosize-1].operation;
-                        undosize++;
-                        redosize--;
+                        else if(mapped[i][0]=='s'){
+                            coords=s.movedown(b.screen);
+                            us.push(s.val,s.rotation,s.x,s.y);
+                        }
+                        u.push(r.peek());
+                        r.pop();
                         break;
                     }
                 }
             }
         }
-        else{
+        else
+        {
             ch='d';
             coords=s.movedown(b.screen);
         }
@@ -156,24 +186,21 @@ class Tetris
             b.setBoard(coords);
             clearscreen();
             b.display_board();
-            if(c!=4 && ch!='u')
+            if(c!=4 && ch!='u' && ch!='o')
             {
-                u[undosize].operation=ch;
-                undosize++;
+                u.push(ch);
             }
-            if(undosize==10)
-            {
-                undosize=0;
-		redosize=0;
-            }
-            if(c==4 && s.flag==1 && ch!='u'){
-                undosize=0;
+            if(c==4 && s.flag==1 && ch!='u' && ch!='o'){
                  for(int i=0;i<coords.length;i++)
                 { 
                     fix++;
                     b.count[coords[i][0]]++;
                 }
-                b.findandremove();
+                us.push(s.val,s.rotation,s.x,s.y);
+                u.push('s');
+              if(b.findandremove()==1){
+                  us.top1=null;
+              }
                 break;
             }
         }
