@@ -31,7 +31,6 @@ class Tetris
         
             if(fix>100)
                 break;
-        us.top1=null;
         Shapes s=new Shapes();
         int coords[][]=s.generate_Shape();
 	
