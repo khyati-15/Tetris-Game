@@ -38,21 +38,21 @@ public class Shapes{
     
     public void generate_Stick(int x,int y)
     {
-	length=3;
+	length=0;
 	rotation=1;
         coords=new int[][]{
-            {x,y},{x+1,y},{x+2,y},{x+3,y}
+            {x,y},{x-1,y},{x-2,y},{x-3,y}
         };
 	
     }
     
     public void generate_TShape(int x,int y)
     {
-	length=1;
+	length=0;
 	width=2;
 	rotation=1;
         coords=new int[][]{
-            {x,y},{x,y+1},{x,y+2},{x+1,y+1}
+            {x,y},{x-1,y-1},{x-1,y},{x-1,y+1}
         };
     }
     
@@ -79,11 +79,11 @@ public class Shapes{
     
    public void generate_LShape(int x,int y)
     {
-	length=2;
+	length=0;
 	width=1;
 	rotation=1;
         coords=new int[][]{
-            {x,y},{x+1,y},{x+2,y},{x+2,y+1}
+            {x,y},{x-1,y},{x-2,y},{x,y+1}
         };
     }
     
@@ -111,7 +111,7 @@ public class Shapes{
         };
         else if(rotation==3)
             coords=new int[][]{
-            {x,y},{x-1,y},{x-2,y},{x,3,y}
+            {x,y},{x+1,y},{x+2,y},{x+3,y}
         };
         else
             coords=new int[][]{
@@ -130,19 +130,19 @@ public class Shapes{
             generate_TShape(x,y);
         else if(rotation==2)
             coords=new int[][]{
-            {x,y},{x+1,y},{x+2,y},{x+1,y-1}
+            {x,y},{x-1,y+1},{x,y+1},{x+1,y+1}
         };
         else if(rotation==3)
             coords=new int[][]{
-            {x,y},{x,y+1},{x,y+2},{x-1,y+1}
+            {x,y},{x+1,y-1},{x+1,y+1},{x+1,y}
         };
         else
             coords=new int[][]{
-            {x,y},{x+1,y},{x+2,y},{x+1,y+1}
+            {x,y},{x-1,y-1},{x,y-1},{x+1,y-1}
         };
-        if(rotation==1){length=1;width=2;}
+        if(rotation==1){length=0;width=2;}
         else if(rotation==3){
-            length=0;
+            length=1;
             width=2;
         }
 		else {length=2;width=1;}
@@ -163,14 +163,14 @@ public class Shapes{
             coords=new int[][]{
             {x,y},{x,y-1},{x,y-2},{x-1,y}
         };
-         if(rotation==1){ length=2;width=1; }
+         if(rotation==1){ length=0;width=1; }
         else if(rotation==2)
         {
             length=2;
             width=2;
         }
         else if(rotation==4){
-            length=0;
+            length=2;
             width=1;
         }
 	else{length=1;width=2;}
@@ -210,14 +210,20 @@ length=0;
         Random r=new Random();
         y=Math.abs(r.nextInt())%15+1; 
         System.out.println(x+" "+y);
-          if(val==0)
+          if(val==0){
+              x+=3;
             generate_Stick(x,y);
-        else if(val==1)
+          }
+        else if(val==1){
+            x+=1;
             generate_TShape(x,y);
+        }
         else if(val==2)
             generate_Square(x,y);
-        else if(val==3)
+        else if(val==3){
+            x+=2;
             generate_LShape(x,y);
+        }
         else if(val==4)
             generate_ZShape(x,y); 
         return coords;
@@ -423,10 +429,10 @@ length=0;
             }
             else
             {
-                if(y-3>0){
+                if(x-3>0){
                    coords=new int[][]{
                        
-                       {x,y},{x,y-1},{x,y-2},{x,y-3}
+                       {x,y},{x-1,y},{x-2,y},{x-3,y}
                    };
                     rotation--;
                 }
@@ -466,10 +472,10 @@ length=0;
         {
             if(ch=='r')
             {
-                if(x+3<19)
+                if(x-3>0)
                 {
                     coords=new int[][]{
-                        {x,y},{x+1,y},{x+2,y},{x+3,y}
+                        {x,y},{x-1,y},{x-2,y},{x-3,y}
                     };
                     rotation=1;
                 }
@@ -478,7 +484,8 @@ length=0;
             }
             else
             {
-                if(x+3<19)
+                
+                 if(x+3<19)
                 {
                     coords=new int[][]{
                         {x,y},{x+1,y},{x+2,y},{x+3,y}
@@ -487,10 +494,14 @@ length=0;
                 }
             }
         }
-            if(rotation==1 || rotation==3)
+            if(rotation==1)
 		{
-			length=3;width=0;
+			length=0;width=0;
 		}
+        else if(rotation==3)
+        {
+            length=3;
+        }
 	else {length=0;width=3;}
     }
 
@@ -535,9 +546,9 @@ length=0;
             }
             else
             {
-                if(x+2<19 && y+1<19){
+                if(x-2>19 && y+1<19){
                    coords=new int[][]{
-                     {x,y},{x+1,y},{x+2,y},{x+2,y+1}
+                     {x,y},{x-1,y},{x-2,y},{x,y+1}
                    };
                     rotation--;
                 }
@@ -579,11 +590,11 @@ length=0;
         {
             if(ch=='r')
             {
-                if(x+2<19 && y+1<19)
+                if(x-2>0 && y+1<19)
                 {
                   
                     coords=new int[][]{
-                        {x,y},{x+1,y},{x+2,y},{x+2,y+1}
+                        {x,y},{x-1,y},{x-2,y},{x,y+1}
                     };
                     rotation=1;
                 }
@@ -601,14 +612,14 @@ length=0;
                 }
             }
         }
-	if(rotation==1){ length=2;width=1; }
+	if(rotation==1){ length=0;width=1; }
         else if(rotation==2)
         {
             length=2;
             width=2;
         }
-        else if(rotation==4){
-            length=0;
+        else if(rotation==3){
+            length=2;
             width=1;
         }
 	else{length=1;width=2;}
@@ -733,15 +744,16 @@ length=0;
     }
 	else{ length=2;width=1;}
 }
+    
     public void rotate_TShape(char ch)
     {
          if(rotation==1 )
         {
             if(ch=='r'){
-            if(y-1>0 && x+2<19){
+            if(y+1<19 && x+1<19 && x-1>0){
             coords=new int[][]{
                 
-                {x,y},{x+1,y},{x+2,y},{x+1,y-1}
+                {x,y},{x-1,y+1},{x,y+1},{x+1,y+1}
             };
                 rotation++;
             }
@@ -750,10 +762,10 @@ length=0;
             }
             else
             {
-                if(y+1<19    &&  x+2<19){
+                if(x+1<19    &&  x-1>0 && y-1>0){
                    coords=new int[][]{
                       
-                       {x,y},{x+1,y},{x+2,y},{x+1,y+1}
+                       {x,y},{x,y-1},{x-1,y-1},{x+1,y-1}
                    };
                     rotation=4;
                 }
@@ -765,9 +777,9 @@ length=0;
         else   if(rotation==2 )
         {
             if(ch=='r'){
-            if(x-1>0 && y+2<19){
+            if(x+1<19 && y-1>0 && y+1<19 ){
             coords=new int[][]{
-                {x,y},{x,y+1},{x,y+2},{x-1,y+1}
+                {x,y},{x+1,y+1},{x+1,y},{x+1,y-1}
             };
                 rotation++;
             }
@@ -776,9 +788,9 @@ length=0;
             }
             else
             {
-                if(x+1<19 &&  y+2<19){
+                if(x-1>0 &&  y+1<19 && y-1>0) {
                    coords=new int[][]{
-                        {x,y},{x,y+1},{x,y+2},{x+1,y+1}
+                        {x,y},{x-1,y+1},{x-1,y},{x-1,y-1}
                    };
                     rotation--;
                 }
@@ -791,11 +803,11 @@ length=0;
         {
             if(ch=='r')
             {
-                if(x+2<19 && y+1<19)
+                if(x+1<19 && y-1>0 && x-1>0)
                 {
 			
                     coords=new int[][]{
-                      {x,y},{x+1,y},{x+2,y},{x+1,y+1}
+                      {x,y},{x+1,y-1},{x-1,y-1},{x,y-1}
                     };
                     rotation++;
                 }
@@ -804,10 +816,10 @@ length=0;
             }
             else
             {
-                if(x+2<19 && y-1>0)
+                if(x+1<19 && y+1<19 && x-1>0)
                 {
                     coords=new int[][]{
-                        {x,y},{x+1,y},{x+2,y},{x+1,y-1}
+                        {x,y},{x+1,y+1},{x-1,y+1},{x,y+1}
                     };
                     rotation--;
                 }
@@ -820,11 +832,11 @@ length=0;
         {
             if(ch=='r')
             {
-                if(x+1<19 && y+2<19)
+                if(x-1>0 && y+1<19 && y-1>0)
                 {
                   
                     coords=new int[][]{
-                        {x,y},{x,y+1},{x,y+2},{x+1,y+1}
+                        {x,y},{x-1,y+1},{x-1,y},{x-1,y-1}
                     };
                     rotation=1;
                 }
@@ -833,18 +845,18 @@ length=0;
             }
             else
             {
-                if(y+2<19 && x-1>0)
+                if(y+1<19 && x+1<19 && y-1>0)
                 {
                     coords=new int[][]{
-                        {x,y},{x,y+1},{x,y+2},{x-1,y+1}
+                        {x,y},{x+1,y+1},{x+1,y},{x+1,y-1}
                     };
                     rotation--;
                 }
             }
         }
-            if(rotation==1){length=1;width=2;}
+            if(rotation==1){length=0;width=2;}
         else if(rotation==3){
-            length=0;
+            length=1;
             width=2;
         }
 		else {length=2;width=1;}
