@@ -189,7 +189,9 @@ class Tetris
             {
                 u.push(ch);
             }
-            if(c==4 && s.flag==1 && ch!='u' && ch!='o'){
+            if(c==4 && s.flag==1 && ch!='u' && ch!='o' && ch=='d'){
+                s.x=newcoords[0][0];
+                s.y=newcoords[0][1];
                  for(int i=0;i<coords.length;i++)
                 { 
                     fix++;
